@@ -10,16 +10,12 @@ def check_win_lose(time, choose, c, x, score, play):
     if time <= 10:
         if c == x and choose == "T":
             print(" YOU WIN ")
-            score += 1
         elif c != x and choose == "F":
             print(" YOU WIN ")
-            score += 1
         else:
             print(" YOU LOSE ")
-            play = False
     else:
         print(" YOU LOSE ")
-        play = False
     return score
 
 def print_operation(x, a, b, c):
@@ -56,7 +52,3 @@ while True:
             print()
         else:
             print(end="")
-
-
-
-
