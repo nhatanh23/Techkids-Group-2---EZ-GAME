@@ -53,7 +53,7 @@ while done is True:
             choose = input("True or False? ").upper()
             elapsed_time = time.time() - start_time
 
-            [score, result] = check_win_lose(elapsed_time, choose, c, x, score, result)
+            [score, result] = check_win_lose(elapsed_time, choose, c, x, score)
 
             if result == True:
                 done = True
