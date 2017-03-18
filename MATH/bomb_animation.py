@@ -75,10 +75,10 @@ class BombAnim:
         if self.state:
             screen.blit(self.bomb[self.bomb_index], (x, y))
             self.count += 1
-            play_sound("Explosion.wav")
+            #play_sound("Explosion.wav")
 
             if self.count >= 4.5:
-                self.bomb_index = (self.bomb_index +1 ) % len(self.bomb)
+                self.bomb_index = (self.bomb_index + 1 ) % len(self.bomb)
                 self.count = 0
         else:
             screen.blit(self.bomb[0], [x, y])
