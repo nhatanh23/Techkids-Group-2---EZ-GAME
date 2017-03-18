@@ -35,6 +35,7 @@ score = 0
 done = False
 
 while not done:
+
         a = random.randint(0, 10)
         b = random.randint(0, 10)
         d = random.randint(0, 20)
@@ -63,6 +64,9 @@ while not done:
                 done = False
             elif input("Restart? ").upper() == "R":
                 done = False
+                score = 0
+            else:
+                done = True
 
 
         else:
