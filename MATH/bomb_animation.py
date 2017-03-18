@@ -1,8 +1,12 @@
 import pygame
+import random, time
+
 
 pygame.init()
 pygame.display.set_caption("Welcome to our game")
 screen = pygame.display.set_mode((800, 600))
+
+done = False
 
 bomb_images = [
     pygame.image.load("techkids - ezgame/image/bom/bom 1-01.png"),
@@ -59,7 +63,6 @@ false_image = pygame.image.load("techkids - ezgame/image/True_False/False-01.png
 BACK_GROUND = pygame.image.load("techkids - ezgame/image/background-01.png")
 Number_Image = pygame.image.load("techkids - ezgame/image/a, b/1-01.png")
 
-
 def play_sound(file_name):
     pygame.mixer.music.load(file_name)
     pygame.mixer.music.play(0)
@@ -75,7 +78,7 @@ class BombAnim:
         if self.state:
             screen.blit(self.bomb[self.bomb_index], (x, y))
             self.count += 1
-            play_sound("Explosion.wav")
+            #play_sound("Explosion.wav")
 
             if self.count >= 4.5:
                 self.bomb_index = (self.bomb_index +1 ) % len(self.bomb)
@@ -84,8 +87,6 @@ class BombAnim:
             screen.blit(self.bomb[0], [x, y])
 
 bomb_anim = BombAnim(bomb_images)
-
-
 
 done = False
 
