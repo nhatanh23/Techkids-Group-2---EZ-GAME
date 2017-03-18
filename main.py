@@ -33,7 +33,7 @@ while play_or_exit():
     if d == c and (elapsed_time < 5) and (click == "T"):
         diem +=1
         print(diem, "win")
-        if d == c and elapsed_time)
+        if d == c and elapsed_time():
     elif d != c and (elapsed_time < 5) and (click == "F"):
         diem +=1
         print(diem, "win")
