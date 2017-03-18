@@ -5,7 +5,7 @@ def comparision(a, b):
         return True
     return False
 
-def check_win_lose(time, choose, c, x, score, result):
+def check_win_lose(time, choose, c, x, score):
     #win
     result = False
     if time <= 10:
@@ -32,9 +32,9 @@ def print_operation(x, a, b, c):
         print(a, " - ", b, ' = ', c)
 
 score = 0
-done = True
+done = False
 
-while done is True:
+while not done:
         a = random.randint(0, 10)
         b = random.randint(0, 10)
         d = random.randint(0, 20)
@@ -53,15 +53,17 @@ while done is True:
             choose = input("True or False? ").upper()
             elapsed_time = time.time() - start_time
 
-            [score, result] = check_win_lose(elapsed_time, choose, c, x, score, result)
-
-            if result == True:
-                done = True
-            else:
-                done = False
+            [score, result] = check_win_lose(elapsed_time, choose, c, x, score)
 
             print("Your current score: ", score)
             print("Your answer time:", elapsed_time)
             print()
+
+            if result == True:
+                done = False
+            elif input("Restart? ").upper() == "R":
+                done = False
+
+
         else:
             print(end="")
