@@ -99,7 +99,7 @@ class BombAnim:
         self.bomb = bomb
         self.count = 0
         self.bomb_index = 0
-        self.state = False
+        self.state = True
 
 
     def run(self, screen, x, y):
@@ -113,16 +113,9 @@ class BombAnim:
 bomb_anim = BombAnim(bomb_images)
 
 clock = pygame.time.Clock()
-time_variable = pygame.time.get_ticks() - 6000
+time_variable = pygame.time.get_ticks() - 1500
 time_changebomb = pygame.time.get_ticks() - 1500
-time_win = pygame.time.get_ticks() - 1500
-
-def comparision(a, b):
-    if a >= b:
-        return True
-    return False
-
-
+time_win = pygame.time.get_ticks() - 6000
 
 def score_count(score,i,j):
     font_name = ("font/utm-avobold.ttf")
@@ -132,27 +125,34 @@ def score_count(score,i,j):
     screen.blit(text, (i, j))
 
 def check_win_lose(c, x, score):
-    global lose, win
     if event.type == pygame.KEYDOWN:
-        if event.key == pygame.K_t or event.key == pygame.K_LEFT:
-            screen.blit((true_image), (50, 250))
-            if c == x:
-                score += 1
-                print("win")
-                score_count(score, 400, 50)
-            else:
-                print("lose")
-                lose = True
-        if event.key == pygame.K_r or event.key == pygame.K_RIGHT:
-            screen.blit((false_image), (230, 250))
-            if c == x:
-                print("lose")
-                lose = True
-            else:
-                score += 1
-                print("win")
-                score_count(score, 400, 50)
-        return score
+        if pygame.time.get_ticks() - time_win <= 5000:
+            if event.key == pygame.K_t or event.key == pygame.K_LEFT:
+                screen.blit((true_image), (50, 250))
+                if c == x:
+                    score += 1
+                    print("win")
+                    score_count(score, 400, 50)
+                    scene = 0
+                else:
+                    print("lose")
+                    scene = 1
+            if event.key == pygame.K_r or event.key == pygame.K_RIGHT:
+                screen.blit((false_image), (230, 250))
+                if c == x:
+                    print("lose")
+                    scene = 1
+                else:
+                    score += 1
+                    print("win")
+                    score_count(score, 400, 50)
+                    scene = 0
+
+        else:
+            scene = 1
+
+        return score, scene
+
 
 # def replay():
 #     if event.type == pygame.KEYDOWN:
@@ -179,67 +179,69 @@ def check_win_lose(c, x, score):
 score = 0
 
 done = False
-
+result = False
+scene = 0
 
 while not done:
-    screen.blit((BACK_GROUND), (0, 0))
+    if scene == 0:
+        screen.blit((BACK_GROUND), (0, 0))
 
-    if pygame.time.get_ticks() - time_variable >= 5000:
-        a = random.randint(0, 10)
-        b = random.randint(0, 10)
-        d = random.randint(0, 20)
-        operation = [a + b, a - b]
-        x = random.choice(operation)
-        number_list = [d, x]
-        c = random.choice(number_list)
-        time_variable = pygame.time.get_ticks()
+        if pygame.time.get_ticks() - time_variable >= 1000:
+            a = random.randint(0, 10)
+            b = random.randint(0, 10)
+            d = random.randint(0, 20)
+            operation = [a + b, a - b]
+            x = random.choice(operation)
+            number_list = [d, x]
+            c = random.choice(number_list)
+            time_variable = pygame.time.get_ticks()
 
-        Number_Image_a = number_images[a]
-        Number_Image_b = number_images[b]
-        Number_Image_c = number_images[c]
+            Number_Image_a = number_images[a]
+            Number_Image_b = number_images[b]
+            Number_Image_c = number_images[c]
 
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            done = True
-        elif check_win_lose(c, x, score):
-            # done = False
-            score = check_win_lose(c, x, score)
-            print(score)
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                done = True
+            elif check_win_lose(c, x, score):
+                # done = False
+                [score, scene] = check_win_lose(c, x, score)
+                print(scene)
+                print(score)
 
-    if pygame.time.get_ticks() - time_changebomb >= (1000/14):
-        bomb_anim.bomb_index = (bomb_anim.bomb_index + 1 ) % len(bomb_anim.bomb)
-        time_changebomb = pygame.time.get_ticks()
+        if pygame.time.get_ticks() - time_changebomb >= (1000/17):
+            print(pygame.time.get_ticks())
+            bomb_anim.bomb_index = (bomb_anim.bomb_index + 1) % len(bomb_anim.bomb)
+            time_changebomb = pygame.time.get_ticks()
 
-
-    # screen.fill()
-
-
-    screen.blit((Number_Image_a), (100,0))
-    screen.blit((Number_Image_b), (290, 0))
-    screen.blit((Number_Image_c), (500, 0))
-    screen.blit((true_image),(50,230))
-    screen.blit((false_image),(230,230))
-    screen.blit((equal_image),(400, 0))
-    bomb_anim.run(screen, -180, -150)
-    score_count(score, 400, 50)
-
-
-    if x == operation[0]:
-        screen.blit((operation_image[0]), (220, -10))
-    elif x == operation[1]:
-        screen.blit((operation_image[1]), (220, -10))
+        screen.blit((Number_Image_a), (100,0))
+        screen.blit((Number_Image_b), (290, 0))
+        screen.blit((Number_Image_c), (500, 0))
+        screen.blit((true_image),(50,230))
+        screen.blit((false_image),(230,230))
+        screen.blit((equal_image),(400, 0))
+        bomb_anim.run(screen, -180, -150)
+        score_count(score, 400, 50)
 
 
+        if x == operation[0]:
+            screen.blit((operation_image[0]), (220, -10))
+        elif x == operation[1]:
+            screen.blit((operation_image[1]), (220, -10))
 
-    if lose == True:
+    if scene == 1:
         screen.blit(game_lose_background, (0, 0))
         score_count(score, 300, 220)
         screen.blit(replay_button, (250, 150))
-
-
-
-
-
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_UP:
+                    screen.blit(replay_button, (250, 120))
+                    done = False
+                    scene = 0
+                    score = 0
+                elif event.key == pygame.K_DOWN:
+                    done = True
 
 
 
