@@ -85,9 +85,9 @@ true_image = pygame.image.load("techkids - ezgame/image/True_False/True-01.png")
 false_image = pygame.image.load("techkids - ezgame/image/True_False/False-01.png")
 
 BACK_GROUND = pygame.image.load("techkids - ezgame/image/background-01.png")
-game_lose = pygame.image.load("techkids - ezgame/image/end game/game over-01.png")
+game_lose_background = pygame.image.load("techkids - ezgame/image/end game/end game-01.png")
+replay_button = pygame.image.load("techkids - ezgame/image/end game/replay-01.png")
 
-win = False
 lose = False
 
 def play_sound(file_name):
@@ -124,12 +124,12 @@ def comparision(a, b):
 
 
 
-def score_count(score):
+def score_count(score,i,j):
     font_name = ("font/utm-avobold.ttf")
     font = pygame.font.Font(font_name, 30)
 
     text = font.render("Score: "+ str(score), True, (255,255,0))
-    screen.blit(text, (400, 50))
+    screen.blit(text, (i, j))
 
 def check_win_lose(c, x, score):
     global lose, win
@@ -139,8 +139,7 @@ def check_win_lose(c, x, score):
             if c == x:
                 score += 1
                 print("win")
-                score_count(score)
-                win = True
+                score_count(score, 400, 50)
             else:
                 print("lose")
                 lose = True
@@ -152,8 +151,7 @@ def check_win_lose(c, x, score):
             else:
                 score += 1
                 print("win")
-                score_count(score)
-                win = True
+                score_count(score, 400, 50)
         return score
 
 # def replay():
@@ -222,6 +220,8 @@ while not done:
     screen.blit((true_image),(50,230))
     screen.blit((false_image),(230,230))
     screen.blit((equal_image),(400, 0))
+    bomb_anim.run(screen, -180, -150)
+    score_count(score, 400, 50)
 
 
     if x == operation[0]:
@@ -229,14 +229,19 @@ while not done:
     elif x == operation[1]:
         screen.blit((operation_image[1]), (220, -10))
 
+
+
     if lose == True:
-        screen.blit(game_lose, (250, 250))
-        done = True
+        screen.blit(game_lose_background, (0, 0))
+        score_count(score, 300, 220)
+        screen.blit(replay_button, (250, 150))
 
 
 
-    score_count(score)
 
-    bomb_anim.run(screen, -180,-150)
+
+
+
+
     # clock.tick(360)
     pygame.display.flip()
