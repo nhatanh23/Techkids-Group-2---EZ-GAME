@@ -85,8 +85,10 @@ true_image = pygame.image.load("techkids - ezgame/image/True_False/True-01.png")
 false_image = pygame.image.load("techkids - ezgame/image/True_False/False-01.png")
 
 BACK_GROUND = pygame.image.load("techkids - ezgame/image/background-01.png")
+game_lose = pygame.image.load("techkids - ezgame/image/end game/game over-01.png")
 
-
+win = False
+lose = False
 
 def play_sound(file_name):
     pygame.mixer.music.load(file_name)
@@ -120,32 +122,48 @@ def comparision(a, b):
         return True
     return False
 
+
+
+def score_count(score):
+    font_name = ("font/utm-avobold.ttf")
+    font = pygame.font.Font(font_name, 30)
+
+    text = font.render("Score: "+ str(score), True, (255,255,0))
+    screen.blit(text, (400, 50))
+
 def check_win_lose(c, x, score):
+    global lose, win
     if event.type == pygame.KEYDOWN:
         if event.key == pygame.K_t or event.key == pygame.K_LEFT:
             screen.blit((true_image), (50, 250))
             if c == x:
+                score += 1
                 print("win")
                 score_count(score)
+                win = True
             else:
                 print("lose")
+                lose = True
         if event.key == pygame.K_r or event.key == pygame.K_RIGHT:
             screen.blit((false_image), (230, 250))
             if c == x:
                 print("lose")
+                lose = True
             else:
+                score += 1
                 print("win")
                 score_count(score)
+                win = True
         return score
 
-font_name = ("font/DK Cover Up.otf")
+# def replay():
+#     if event.type == pygame.KEYDOWN:
+#         if event.key == pygame.K_UP:
+#             done = False
 
-def score_count(score):
-    score += 1
-    font = pygame.font.SysFont(None, 25)
-    font = pygame.font.Font(font_name, 25)
-    text = font.render(str(count_game), True, yellow)
-    gameDisplay.blit(text, (650, 10))
+
+
+
 
 # a = random.randint(0, 10)
 # b = random.randint(0, 10)
@@ -163,6 +181,7 @@ def score_count(score):
 score = 0
 
 done = False
+
 
 while not done:
     screen.blit((BACK_GROUND), (0, 0))
@@ -189,21 +208,14 @@ while not done:
             score = check_win_lose(c, x, score)
             print(score)
 
-        bomb_anim.state = True
-
-
-
     if pygame.time.get_ticks() - time_changebomb >= (1000/14):
         bomb_anim.bomb_index = (bomb_anim.bomb_index + 1 ) % len(bomb_anim.bomb)
         time_changebomb = pygame.time.get_ticks()
 
 
-
-
-
     # screen.fill()
 
-    screen.blit((score_image), (150, -150))
+
     screen.blit((Number_Image_a), (100,0))
     screen.blit((Number_Image_b), (290, 0))
     screen.blit((Number_Image_c), (500, 0))
@@ -217,7 +229,13 @@ while not done:
     elif x == operation[1]:
         screen.blit((operation_image[1]), (220, -10))
 
+    if lose == True:
+        screen.blit(game_lose, (250, 250))
+        done = True
 
+
+
+    score_count(score)
 
     bomb_anim.run(screen, -180,-150)
     # clock.tick(360)
