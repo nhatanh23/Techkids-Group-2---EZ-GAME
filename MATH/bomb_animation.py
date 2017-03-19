@@ -56,12 +56,36 @@ operation_image = [
 
 equal_image = pygame.image.load("techkids - ezgame/image/operation/equal-01.png")
 
+score_image = pygame.image.load("techkids - ezgame/image/score-01.png")
+score_number_image = [
+    pygame.image.load("techkids - ezgame/image/a, b/0-01.png"),
+    pygame.image.load("techkids - ezgame/image/a, b/1-01.png"),
+    pygame.image.load("techkids - ezgame/image/a, b/2-01.png"),
+    pygame.image.load("techkids - ezgame/image/a, b/3-01.png"),
+    pygame.image.load("techkids - ezgame/image/a, b/4-01.png"),
+    pygame.image.load("techkids - ezgame/image/a, b/5-01.png"),
+    pygame.image.load("techkids - ezgame/image/a, b/6-01.png"),
+    pygame.image.load("techkids - ezgame/image/a, b/7-01.png"),
+    pygame.image.load("techkids - ezgame/image/a, b/8-01.png"),
+    pygame.image.load("techkids - ezgame/image/a, b/9-01.png"),
+    pygame.image.load("techkids - ezgame/image/a, b/10-01.png"),
+    pygame.image.load("techkids - ezgame/image/a, b/11-01.png"),
+    pygame.image.load("techkids - ezgame/image/a, b/12-01.png"),
+    pygame.image.load("techkids - ezgame/image/a, b/13-01.png"),
+    pygame.image.load("techkids - ezgame/image/a, b/14-01.png"),
+    pygame.image.load("techkids - ezgame/image/a, b/15-01.png"),
+    pygame.image.load("techkids - ezgame/image/a, b/16-01.png"),
+    pygame.image.load("techkids - ezgame/image/a, b/17-01.png"),
+    pygame.image.load("techkids - ezgame/image/a, b/18-01.png"),
+    pygame.image.load("techkids - ezgame/image/a, b/19-01.png"),
+    pygame.image.load("techkids - ezgame/image/a, b/20-01.png"),
+]
 
 true_image = pygame.image.load("techkids - ezgame/image/True_False/True-01.png")
 false_image = pygame.image.load("techkids - ezgame/image/True_False/False-01.png")
 
 BACK_GROUND = pygame.image.load("techkids - ezgame/image/background-01.png")
-Number_Image = pygame.image.load("techkids - ezgame/image/a, b/1-01.png")
+
 
 def play_sound(file_name):
     pygame.mixer.music.load(file_name)
@@ -80,7 +104,7 @@ class BombAnim:
             self.count += 1
             #play_sound("Explosion.wav")
 
-            if self.count >= 4.5:
+            if self.count >= 2.2:
                 self.bomb_index = (self.bomb_index + 1 ) % len(self.bomb)
                 self.count = 0
         else:
@@ -91,7 +115,7 @@ bomb_anim = BombAnim(bomb_images)
 done = False
 
 clock = pygame.time.Clock()
-
+time_variable = pygame.time.get_ticks() - 1500
 while not done:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -99,16 +123,39 @@ while not done:
 
         bomb_anim.state = True
 
+    if pygame.time.get_ticks() - time_variable >= 1000:
+        a = random.randint(0, 10)
+        b = random.randint(0, 10)
+        d = random.randint(0, 20)
+        operation = [a + b, a - b]
+        x = random.choice(operation)
+        number_list = [d, x]
+        c = random.choice(number_list)
+        time_variable = pygame.time.get_ticks()
+
+        Number_Image_a = number_images[a]
+        Number_Image_b = number_images[b]
+        Number_Image_c = number_images[c]
 
 
 
     # screen.fill()
-    screen.blit((BACK_GROUND),(0,0))
-    screen.blit((Number_Image),(140,0))
+    screen.blit((BACK_GROUND), (0,0))
+    screen.blit((score_image), (150, -150))
+    screen.blit((Number_Image_a), (100,0))
+    screen.blit((Number_Image_b), (290, 0))
+    screen.blit((Number_Image_c), (500, 0))
     screen.blit((true_image),(50,230))
     screen.blit((false_image),(230,230))
-    # screen.blit((operation_image),(300,0))
     screen.blit((equal_image),(400, 0))
+
+    if x == operation[0]:
+        screen.blit((operation_image[0]), (220, -10))
+    elif x == operation[1]:
+        screen.blit((operation_image[1]), (220, -10))
+
+
+
     bomb_anim.run(screen, -180,-150)
     # clock.tick(360)
     pygame.display.flip()
