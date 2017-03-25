@@ -127,31 +127,31 @@ def score_count(score,i,j):
 def check_win_lose(c, x, score):
     if event.type == pygame.KEYDOWN:
         #if pygame.time.get_ticks() - time_win <= 5000:
-            if event.key == pygame.K_t or event.key == pygame.K_LEFT:
-                screen.blit((true_image), (50, 250))
-                if c == x:
-                    score += 1
-                    print("win")
-                    score_count(score, 400, 50)
-                    scene = 0
-                else:
-                    print("lose")
-                    scene = 1
-            if event.key == pygame.K_r or event.key == pygame.K_RIGHT:
-                screen.blit((false_image), (230, 250))
-                if c == x:
-                    print("lose")
-                    scene = 1
-                else:
-                    score += 1
-                    print("win")
-                    score_count(score, 400, 50)
-                    scene = 0
+        if event.key == pygame.K_t or event.key == pygame.K_LEFT:
+            screen.blit((true_image), (50, 250))
+            if c == x:
+                score += 1
+                print("win")
+                score_count(score, 400, 50)
+                scene = 0
+            else:
+                print("lose")
+                scene = 1
+        if event.key == pygame.K_r or event.key == pygame.K_RIGHT:
+            screen.blit((false_image), (230, 250))
+            if c == x:
+                print("lose")
+                scene = 1
+            else:
+                score += 1
+                print("win")
+                score_count(score, 400, 50)
+                scene = 0
 
         #else:
             #scene = 1
 
-    return score, scene
+        return score, scene
 
 
 # def replay():
