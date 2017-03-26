@@ -1,0 +1,9 @@
+diff a/MATH/bomb_animation.py b/MATH/bomb_animation.py	(rejected hunks)
+@@ -151,7 +151,6 @@
+         #else:
+             #scene = 1
+ 
+-        return score, scene
+     return score, scene
+ 
+ 

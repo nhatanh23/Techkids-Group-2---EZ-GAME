@@ -151,6 +151,7 @@ def check_win_lose(c, x, score):
         #else:
             #scene = 1
 
+        return score, scene
     return score, scene
 
 
